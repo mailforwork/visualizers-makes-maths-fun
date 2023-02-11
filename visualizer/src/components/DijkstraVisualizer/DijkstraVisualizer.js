@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-import { dijkstra, getNodesInShortestPathOrder } from '../algorithm/dijkstra';
+import { dijkstra, getNodesInShortestPathOrder } from '../../algorithms/dijkstra';
+import Node from '../Node/Node';
+import './Visualizer.css'
 
-import '.'
-
-const START_THE_NODE_ROW = 5;
-const START_THE_NODE_COL = 10;
-const FINISH_THE_NODE_ROW = 5;
-const FINISH_THE_NODE_COL = 45;
+const START_THE_NODE_ROW = 10;
+const START_THE_NODE_COL = 5;
+const FINISH_THE_NODE_ROW = 10;
+const FINISH_THE_NODE_COL = 20;
 
 class DijkstraVisualizer extends Component {
     constructor() {
@@ -47,7 +47,7 @@ class DijkstraVisualizer extends Component {
     // ANIMATION OF VISITED NODES
     // *******************************************************************************
 
-    animateDijkstra(visitedNodeInOrder, nodesInShortestPathOrder) {
+    animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder) {
         for (let i = 0; i <= visitedNodesInOrder.length; i++) {
             if (i === visitedNodesInOrder.length) {
                 setTimeout(() => {
@@ -81,8 +81,8 @@ class DijkstraVisualizer extends Component {
 
     visualizeDijkstra() {
         const { grid } = this.state;
-        const startNode = grid[START_NODE_ROW][START_NODE_COL];
-        const finishNode = grid[FINISH_NODE_ROW][FINISH_NODE_COL];
+        const startNode = grid[START_THE_NODE_ROW][START_THE_NODE_COL];
+        const finishNode = grid[FINISH_THE_NODE_ROW][FINISH_THE_NODE_COL];
         const visitedNodesInOrder = dijkstra(grid, startNode, finishNode);
         const nodesInShortestPathOrder = getNodesInShortestPathOrder(finishNode);
         this.animateDijkstra(visitedNodesInOrder, nodesInShortestPathOrder);
@@ -92,47 +92,97 @@ class DijkstraVisualizer extends Component {
     // *******************************************************************************
 
     render() {
-        const {grid, mouseIsPressed} = this.state;
+        const { grid, mouseIsPressed } = this.state;
 
-        return(
+        return (
             <>
-            <button onClick={() => this.visualizeDijkstra()}>
-                Let's visualize dijkstra algorithm :/
-            </button>
-            
+                <button onClick={() => this.visualizeDijkstra()} id ='button-main'>
+                    Let's visualize dijkstra algorithm :/
+                </button>
 
-            <div className="grid">
-                {grid.map((row,rowIdx)=>{
-                    return(
-                        <div key={rowIdx}>
-                            {row.map((node,nodeIdx)=>{
-                                const {row,col,isFinish,isStart,isWall} = node;
-                                return();
-                            })}
-                        </div>
-                    )
-                })}
-            </div>
+
+                <div className="grid">
+                    {grid.map((row, rowIdx) => {
+                        return (
+                            <div key={rowIdx}>
+                                {row.map((node, nodeIdx) => {
+                                    const { row, col, isFinish, isStart, isWall } = node;
+                                    return (
+                                        <Node
+                                            key={nodeIdx}
+                                            col={col}
+                                            isFinish={isFinish}
+                                            isStart={isStart}
+                                            isWall={isWall}
+                                            mouseIsPressed={mouseIsPressed}
+                                            onMouseDown={(row, col) => this.handleMouseDown(row, col)}
+                                            onMouseEnter={(row, col) =>
+                                                this.handleMouseEnter(row, col)
+                                            }
+                                            onMouseUp={() => this.handleMouseUp()}
+                                            row={row}>
+                                        </Node>
+                                    );
+                                })}
+                            </div>
+                        )
+                    })}
+                </div>
             </>
         )
 
     }
 }
 
-    // *******************************************************************************
-    // WRITING FUNCTION TO ACCESS THE INITIAL GRID
-    // *******************************************************************************
+// *******************************************************************************
+// WRITING FUNCTION TO ACCESS THE INITIAL GRID
+// *******************************************************************************
+
+const getInitialGrid = () => {
+    const grid = [];
+    for (let row = 0; row < 20; row++) {
+        const currentRow = [];
+        for (let col = 0; col < 50; col++) {
+            currentRow.push(createNode(col, row));
+        }
+        grid.push(currentRow);
+    }
+
+    return grid;
+}
+
+// *******************************************************************************
+// WRITING FUNCTION TO CREATE A NEW NODE
+// *******************************************************************************
+
+const createNode = (col, row) => {
+    return {
+        col,
+        row,
+        isStart: row === START_THE_NODE_ROW && col === START_THE_NODE_COL,
+        isFinite: row === FINISH_THE_NODE_ROW && col === FINISH_THE_NODE_COL,
+        distance: Infinity,
+        isVisited: false,
+        isWall: false,
+        previousNode: null,
+    }
+}
 
 
-    // *******************************************************************************
-    // WRITING FUNCTION TO CREATE A NEW NODE
-    // *******************************************************************************
+// *******************************************************************************
+// WRITING FUNCTION TO CREATE OBSTACES IN THE PATH OF TWO NODES ALSO CALLED AS -- BOMBS💣 or walls 
+// *******************************************************************************
 
+const getNewGridWithWallToggled = (grid, row, col) => {
+    const newGrid = grid.slice();
+    const node = newGrid[row][col];
+    const newNode = {
+        ...node,
+        isWall: !node.isWall,
+    }
 
+    newGrid[row][col] = newNode;
+    return newGrid;
+}
 
-    // *******************************************************************************
-    // WRITING FUNCTION TO CREATE OBSTACES IN THE PATH OF TWO NODES ALSO CALLED AS -- BOMBS💣 or walls 
-    // *******************************************************************************
-
-
-
+export default DijkstraVisualizer;

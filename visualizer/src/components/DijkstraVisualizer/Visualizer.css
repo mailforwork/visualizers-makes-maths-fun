@@ -1,3 +1,25 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+
 .grid {
-  margin: 100px 0 0;
+  margin: 50px 0 0;
+}
+
+#button-main {
+  margin-left: 400px;
+  margin-top: 1%;
+  margin-top: 0.5%;
+  list-style-type: none;
+  text-align: center;
+  line-height: 30px;
+  padding: 5px;
+
+  text-decoration: none !important;
+  letter-spacing: 3px;
+  color: white;
+  display: block;
+ 
+  font-family: 'Press Start 2P', cursive;
+  -webkit-transition: all 0.5s;
+  transition: all 0.5s;
+
 }
