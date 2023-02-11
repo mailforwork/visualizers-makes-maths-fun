@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 
 import './Node.css';
 
@@ -17,10 +17,10 @@ export default class Node extends Component {
     const extraClassName = isFinish
       ? 'node-finish'
       : isStart
-        ? 'node-start'
-        : isWall
-          ? 'node-wall'
-          : '';
+      ? 'node-start'
+      : isWall
+      ? 'node-wall'
+      : '';
 
     return (
       <div

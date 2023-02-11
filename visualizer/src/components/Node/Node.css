@@ -10,6 +10,7 @@
 
 .node-finish {
   background-color: rgb(230, 27, 27);
+  outline: red;
 }
 
 .node-start {
