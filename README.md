@@ -51,16 +51,20 @@ Attention all you math enthusiasts and nerds out there! We've got a sweet new pr
 To set up this React project on your local system, follow these steps:
 
 1.  Clone the repository using the following command:
-       `git clone https://github.com/mailforwork/visualizers-makes-maths-fun` 
+       
+    `git clone https://github.com/mailforwork/visualizers-makes-maths-fun` 
     
 2.  Navigate to the project directory using the following command:
-    `cd your_project` 
+    
+    `cd visualizers-makes-maths-fun` 
     
 3.  Install the required dependencies using the following command:
+    
     `npm install` 
     
 4.  Start the local server using the following command:
-      `npm start`
+    
+    `npm start`
 
 ## System Architechture
 ![enter image description here](https://github.com/mailforwork/visualizers-makes-maths-fun/blob/main/images/Frame%204.png)
